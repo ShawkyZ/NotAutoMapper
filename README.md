@@ -18,7 +18,7 @@ It can also be used explicitly set values for the properties.
 
 # Example
 In this example we have Class Customer and we want to map all it's properties except CreatedDate and UpdatedDate to the type CustomerView
-```
+```c#
     public class Customer
     {
         public Guid Id { get; set; }
@@ -28,7 +28,7 @@ In this example we have Class Customer and we want to map all it's properties ex
         public DateOnly Dob { get; set; }
     }
 ```
-```
+```c#
     [AutoMap(typeof(Customer), ignoreProperty: new string[] { "CreatedDate", "UpdateDate" })]
     public partial class SampleCustomerView
     {
@@ -38,7 +38,7 @@ In this example we have Class Customer and we want to map all it's properties ex
 
 
 The Source Generator will then create the following two classes
-```
+```c#
     public partial class SampleCustomerView
     {
         
@@ -53,7 +53,7 @@ The Source Generator will then create the following two classes
     }
 ```
 
-```
+```c#
     public class MapCustomerToSampleCustomerView
     {
         private Customer _source { get; set; }
@@ -66,9 +66,9 @@ The Source Generator will then create the following two classes
         public MapCustomerToSampleCustomerView AutoMap()
         {
             _id = _source.Id;
-_updatedDate = _source.UpdatedDate;
-_name = _source.Name;
-_dob = _source.Dob;
+            _updatedDate = _source.UpdatedDate;
+            _name = _source.Name;
+            _dob = _source.Dob;
 
             return this;
         }
@@ -108,9 +108,9 @@ _dob = _source.Dob;
             return new SampleCustomerView
             {
                 Id = _id,
-UpdatedDate = _updatedDate,
-Name = _name,
-Dob = _dob,
+                UpdatedDate = _updatedDate,
+                Name = _name,
+                Dob = _dob,
 
             };
         }
@@ -120,7 +120,7 @@ Dob = _dob,
 
 
 Using the Mapper:
-```
+```c#
 var source = new Customer
 {
     Id = Guid.NewGuid(),
