@@ -1,0 +1,40 @@
+﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System;
+using System.Linq;
+using System.Text;
+
+namespace NotAutoMapperGenerator
+{
+    public static class Extensions
+    {
+        public static bool HasAttribute(this SyntaxList<AttributeListSyntax> attributes, string name)
+        {
+            string fullname, shortname;
+            var attrLen = "Attribute".Length;
+            if (name.EndsWith("Attribute"))
+            {
+                fullname = name;
+                shortname = name.Remove(name.Length - attrLen, attrLen);
+            }
+            else
+            {
+                fullname = name + "Attribute";
+                shortname = name;
+            }
+
+            return attributes.Any(al => al.Attributes.Any(a => a.Name.ToString() == shortname || a.Name.ToString() == fullname));
+        }
+
+        public static T FindParent<T>(this SyntaxNode node) where T : class
+        {
+            var current = node;
+            while (true)
+            {
+                current = current.Parent;
+                if (current == null || current is T)
+                    return current as T;
+            }
+        }
+    }
+}
